@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { nanoid } from 'nanoid';
 import ContactForm from "components/ContactForm/ContactForm";
 
+import css from './App.module.css'
+
 export default class App extends Component {
   state = {
     contacts: [
@@ -32,7 +34,7 @@ export default class App extends Component {
 
 
   render() {
-    
+
      return(
     <div className={css.container}>
       <h1>Phonebook</h1>
