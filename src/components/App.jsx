@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { nanoid } from 'nanoid';
-import ContactForm from "./ContactForm/ContactForm";
+import ContactForm from "components/ContactForm/ContactForm";
 
 export default class App extends Component {
   state = {
@@ -15,21 +15,32 @@ export default class App extends Component {
     number: ''
   };
 
-  addContact=({name, number})
+  addContact = ({ name, number }) => {
+    const { contacts } = this.state;
+    const newContact = { id: nanoid(), name, number };
+
+    if (contacts.some(contact => contact.name === name)) {
+      alert(`${name} is already in contacts list`);
+    } else if (name.length === 0) {
+      alert("Field must be filled!");
+    } else {
+      this.setState(({ contacts }) => ({
+        contacts: [newContact, ...contacts],
+      }));
+    };
+  };
 
 
   render() {
+    
      return(
-    <div>
+    <div className={css.container}>
       <h1>Phonebook</h1>
       
-      <ContactForm onContactAdd={this.}
+      <ContactForm onContactAdd={this.contactAdd}/>
 
 
       </div>
- 
-  )
+   )
   }
-
- 
-};
+ };
