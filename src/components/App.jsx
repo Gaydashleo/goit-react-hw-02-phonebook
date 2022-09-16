@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { nanoid } from 'nanoid';
 import ContactForm from 'components/ContactForm/ContactForm';
-import ContactList from 'components/ContactList/ContactList';
+// import ContactList from 'components/ContactList/ContactList';
 
 import Filter from 'components/Filter/Filter'
 import css from 'components/App.module.css';
@@ -34,8 +34,6 @@ export default class App extends Component {
     };
   };
 
-
-
   changeFilter = (filter) => {
     this.setState({ filter });
   };
@@ -52,10 +50,9 @@ export default class App extends Component {
     }));
   };
 
-
   render() {
-    const { filter } = this.state;
-    const changeFilter = this.changeFilter;
+    // const { filter } = this.state;
+    // const changeFilter = this.changeFilter;
  
     return (
       <div className={css.container}>
@@ -64,14 +61,14 @@ export default class App extends Component {
         <ContactForm onContactAdd={this.contactAdd} />
         
         <h2 className={css.subtitle}>Contacts</h2>
-        {changeFilter.length > 1 && (
+        {/* {changeFilter.length > 1 && (
           <Filter filter={filter} changeFilter={changeFilter} />
         )}
         {changeFilter.length > 0 && (
           <ContactList
             contacts={changeFilter}
             onDeleteContact={this.deleteContact} />
-        )}
+        )} */}
       </div>
     );
   }
