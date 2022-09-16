@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { nanoid } from 'nanoid';
-import ContactForm from "components/ContactForm/ContactForm";
+import ContactForm from 'components/ContactForm/ContactForm';
+import ContactList from 'components/ContactList/ContactList';
 
-import css from './App.module.css'
+import Filter from 'components/Filter/Filter'
+import css from 'components/App.module.css';
 
 export default class App extends Component {
   state = {
@@ -33,16 +35,44 @@ export default class App extends Component {
   };
 
 
+
+  changeFilter = (filter) => {
+    this.setState({ filter });
+  };
+
+  filteredContact = () => {
+    const { contacts, filter } = this.state;
+    return contacts.filter((contacts) =>
+      contacts.name.toLowerCase().includes(filter.toLowerCase()));
+  };
+
+    deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
+
+
   render() {
-
-     return(
-    <div className={css.container}>
-      <h1>Phonebook</h1>
+    const { filter } = this.state;
+    const changeFilter = this.changeFilter;
+ 
+    return (
+      <div className={css.container}>
+        <h1 className={css.title}>Phonebook</h1>
       
-      <ContactForm onContactAdd={this.contactAdd}/>
-
-
+        <ContactForm onContactAdd={this.contactAdd} />
+        
+        <h2 className={css.subtitle}>Contacts</h2>
+        {changeFilter.length > 1 && (
+          <Filter filter={filter} changeFilter={changeFilter} />
+        )}
+        {changeFilter.length > 0 && (
+          <ContactList
+            contacts={changeFilter}
+            onDeleteContact={this.deleteContact} />
+        )}
       </div>
-   )
+    );
   }
- };
+  }
