@@ -10,13 +10,13 @@ export const Section = styled.section`
   }
 `;
 
-export const TitleH1 = styled.h1`
+export const Titleh1 = styled.h1`
   margin-bottom: 15px;
   font-size: 28px;
   font-weight: bold;
 `;
 
-export const TitleH2 = styled.h2`
+export const Titleh2 = styled.h2`
   margin-bottom: 15px;
   font-size: 22px;
   font-weight: bold;
