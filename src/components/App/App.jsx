@@ -1,12 +1,12 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
 import { ContactForm } from 'components/ContactForm/ContactForm';
-
-
-import { Container, Section, Titleh1, Titleh2 } from './App.styled';
+import { Filter } from 'components/Filter/Filter';
+import { ContactList } from 'components/ContactList/ContactList';
+import { Container, Section, TitleH1, TitleH2 } from './App.styled';
 
 export class App extends React.Component {
-    state = {
+  state = {
     contacts: [
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
@@ -16,7 +16,7 @@ export class App extends React.Component {
     filter: '',
   };
 
-// Додаємо контакт у список
+  // Добавляет контакт в список
   addContact = ({ name, number }) => {
     const normalizedFind = name.toLowerCase();
     const findName = this.state.contacts.find(
@@ -36,21 +36,48 @@ export class App extends React.Component {
     this.setState(({ contacts }) => ({
       contacts: [{ name, number, id: nanoid() }, ...contacts],
     }));
-};
+  };
 
-render() {
+  // Возвращает результат фильтра
+  getContacts = () => {
+    const { filter, contacts } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
 
-  return (
-    <Container>
-      <Section title="Phonebook">
-        <Titleh1>Phonebook</Titleh1>
-        <ContactForm onSubmit={this.addContact}/>
-      </Section>
-        <Section title="Contacts">
-        <Titleh2>Contacts</Titleh2>
+  // Удаляет контакт из списка
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
+
+  handleFilter = e => {
+    const { name, value } = e.currentTarget;
+    this.setState({ [name]: value });
+  };
+
+  render() {
+    const { filter } = this.state;
+    const visibleContacts = this.getContacts();
+
+    return (
+      <Container>
+        <Section title="Phonebook">
+          <TitleH1>Phonebook</TitleH1>
+          <ContactForm onSubmit={this.addContact} />
         </Section>
-     </Container>
-  );
-
+        <Section title="Contacts">
+          <TitleH2>Contacts</TitleH2>
+          <Filter value={filter} onChange={this.handleFilter} />
+          <ContactList
+            contacts={visibleContacts}
+            onDeleteContact={this.deleteContact}
+          />
+        </Section>
+      </Container>
+    );
   }
 }

@@ -1,9 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { ContactItem } from 'components/Contact/Contact';
+import { ContactItem } from 'components/ContactItem/ContactItem';
 import { List } from './ContactList.styled';
-
-
 
 export const ContactList = ({ contacts, onDeleteContact }) => {
   return (
@@ -14,7 +11,8 @@ export const ContactList = ({ contacts, onDeleteContact }) => {
           id={id}
           name={name}
           number={number}
-          onClick={onDeleteContact} />
+          onClick={onDeleteContact}
+        />
       ))}
     </List>
   );

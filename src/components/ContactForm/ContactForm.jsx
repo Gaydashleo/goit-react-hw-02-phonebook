@@ -1,9 +1,8 @@
-import React from "react";
 import PropTypes from 'prop-types';
-import { Form, Label, Input, Button} from './ContactForm.styled'
+import React from 'react';
+import { Form, Label, Input, Button } from './ContactForm.styled';
 
-
-export class ContactForm extends React.Component{
+export class ContactForm extends React.Component {
   state = {
     name: '',
     number: '',
@@ -14,7 +13,7 @@ export class ContactForm extends React.Component{
     this.setState({ [name]: value });
   };
 
-    handleSubmit = e => {
+  handleSubmit = e => {
     e.preventDefault();
     this.props.onSubmit(this.state);
     this.reset();
@@ -27,7 +26,7 @@ export class ContactForm extends React.Component{
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
   };
-  
+
   render() {
     const { name, number } = this.state;
 
