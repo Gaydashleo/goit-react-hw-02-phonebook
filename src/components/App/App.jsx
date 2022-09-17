@@ -3,9 +3,7 @@ import { nanoid } from 'nanoid';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 
 
-
-
-
+import { Container, Section, Titleh1, Titleh2 } from './App.styled';
 
 export class App extends React.Component {
     state = {
@@ -17,7 +15,7 @@ export class App extends React.Component {
     ],
     filter: '',
   };
-}
+
 // Додаємо контакт у список
   addContact = ({ name, number }) => {
     const normalizedFind = name.toLowerCase();
@@ -40,3 +38,19 @@ export class App extends React.Component {
     }));
 };
 
+render() {
+
+  return (
+    <Container>
+      <Section title="Phonebook">
+        <Titleh1>Phonebook</Titleh1>
+        <ContactForm onSubmit={this.addContact}/>
+      </Section>
+        <Section title="Contacts">
+        <Titleh2>Contacts</Titleh2>
+        </Section>
+     </Container>
+  );
+
+  }
+}
