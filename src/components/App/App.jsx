@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
-import { Container, Section, TitleH1, TitleH2 } from './App.styled';
+import { Container, Section, TitleH1, TitleH2 } from './App.styled.jsx';
 
 export class App extends React.Component {
   state = {
