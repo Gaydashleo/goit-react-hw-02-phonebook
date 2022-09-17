@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { nanoid } from 'nanoid';
 import ContactForm from 'components/ContactForm/ContactForm';
-// import ContactList from 'components/ContactList/ContactList';
+import ContactList from 'components/ContactList/ContactList';
 
 import Filter from 'components/Filter/Filter'
 import css from 'components/App.module.css';
@@ -14,24 +14,26 @@ export default class App extends Component {
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
-    filter: '',
-    name: '',
-    number: ''
-  };
+    filter: "",
+    };
 
-  addContact = ({ name, number }) => {
-    const { contacts } = this.state;
-    const newContact = { id: nanoid(), name, number };
-
-    if (contacts.some(contact => contact.name === name)) {
-      alert(`${name} is already in contacts list`);
-    } else if (name.length === 0) {
+  addContact = ({ contacts }) => {
+    const searchName = this.state.contacts
+    .map((cont)=>cont.name).includes(contacts.name)
+    
+    if (searchName) {
+      alert(`${contacts.name} is already in contacts list`);
+    } else if (contacts.name.length === 0) {
       alert("Field must be filled!");
     } else {
-      this.setState(({ contacts }) => ({
-        contacts: [newContact, ...contacts],
+      const contact = {
+        ...contacts,
+        id: nanoid(),
+      }
+      this.setState(({ prevState }) => ({
+        contacts: [ ...prevState.contacts, contact],
       }));
-    };
+    }
   };
 
   changeFilter = (filter) => {
@@ -45,15 +47,18 @@ export default class App extends Component {
   };
 
     deleteContact = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
+   this.setState((prevState) => {
+      return {
+        contacts: prevState.contacts.filter(({ id }) => id !== contactId),
+      };
+    });
   };
 
   render() {
-    // const { filter } = this.state;
-    // const changeFilter = this.changeFilter;
- 
+    const { filter } = this.state;
+    const addFilteredContact = this.filteredContact();
+    
+
     return (
       <div className={css.container}>
         <h1 className={css.title}>Phonebook</h1>
@@ -61,13 +66,15 @@ export default class App extends Component {
         <ContactForm onContactAdd={this.contactAdd} />
         
         <h2 className={css.subtitle}>Contacts</h2>
-        {/* {changeFilter.length > 1 && (
-          <Filter filter={filter} changeFilter={changeFilter} />
-        )}
-        {changeFilter.length > 0 && (
+          <Filter value={filter} onChangeFilter={this.changeFilter} />
+        {addFilteredContact.length > 0 ? (
           <ContactList
-            contacts={changeFilter}
-            onDeleteContact={this.deleteContact} />
+            contacts={addFilteredContact}
+            onDeleteContact={this.deleteContact} />)
+          : (<p>Contact list is empty.</p>)}
+{/*       
+        {addFilteredContact.length > 0 && (
+
         )} */}
       </div>
     );

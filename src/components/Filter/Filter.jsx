@@ -3,18 +3,19 @@ import PropTypes from 'prop-types';
 import css from './Filter.module.css';
 
 
-export default function Filter({ filter, changeFilter }) {
+export default function Filter({ value, onChangeFilter }) {
   return (
-    <label className={css.label }>
-      <p className={css.text }>Enter some name </p>
-      <input className={css.input}     
+    <div className={css.wrap}>
+      Enter name
+      <input
         type="text"
-        value={filter}
-        onChange={changeFilter} />
-    </label>
+        value={value}
+        onChange={(e) => onChangeFilter(e.target.value)}
+      />
+    </div>
   );
 }
 Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
+  filter: PropTypes.string,
   onchangeFilter: PropTypes.func,
 };
