@@ -17,23 +17,25 @@ export default class App extends Component {
     filter: "",
     };
 
-  addContact = ({ contacts }) => {
-    const searchName = this.state.contacts
-    .map((cont)=>cont.name).includes(contacts.name)
-    
-    if (searchName) {
-      alert(`${contacts.name} is already in contacts list`);
-    } else if (contacts.name.length === 0) {
-      alert("Field must be filled!");
-    } else {
-      const contact = {
-        ...contacts,
-        id: nanoid(),
-      }
-      this.setState(({ prevState }) => ({
-        contacts: [ ...prevState.contacts, contact],
-      }));
+ addContact = ({ name, number }) => {
+    const normalizedFind = name.toLowerCase();
+    const findName = this.state.contacts.find(
+      contact => contact.name.toLowerCase() === normalizedFind
+    );
+    if (findName) {
+      return alert(`${name} is already in contacts.`);
     }
+
+    const findNumber = this.state.contacts.find(
+      contact => contact.number === number
+    );
+    if (findNumber) {
+      return alert(`This phone number is already in use.`);
+    }
+
+    this.setState(({ contacts }) => ({
+      contacts: [{ name, number, id: nanoid() }, ...contacts],
+    }));
   };
 
   changeFilter = (filter) => {
